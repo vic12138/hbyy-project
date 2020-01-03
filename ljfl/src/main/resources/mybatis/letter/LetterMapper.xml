@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.letter.mapper.LetterMapper">
+    
+    <resultMap type="com.ruoyi.project.letter.domain.Letter" id="LetterResult">
+        <result property="id"    column="id"    />
+        <result property="region"    column="region"    />
+    </resultMap>
+
+    <sql id="selectLetterVo">
+        select id, region from letter
+    </sql>
+
+    <select id="selectLetterList" parameterType="com.ruoyi.project.letter.domain.Letter" resultMap="LetterResult">
+        <include refid="selectLetterVo"/>
+        <where>  
+            <if test="region != null  and region != ''"> and region = #{region}</if>
+        </where>
+    </select>
+    
+    <select id="selectLetterById" parameterType="Long" resultMap="LetterResult">
+        <include refid="selectLetterVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLetter" parameterType="com.ruoyi.project.letter.domain.Letter" useGeneratedKeys="true" keyProperty="id">
+        insert into letter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="region != null  and region != ''">region,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="region != null  and region != ''">#{region},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLetter" parameterType="com.ruoyi.project.letter.domain.Letter">
+        update letter
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="region != null  and region != ''">region = #{region},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLetterById" parameterType="Long">
+        delete from letter where id = #{id}
+    </delete>
+
+    <delete id="deleteLetterByIds" parameterType="String">
+        delete from letter where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectLetterByRegion" parameterType="String" resultType="com.ruoyi.project.letter.domain.Letter" >
+        <include refid="selectLetterVo"/>
+        <where>
+            <if test="region != null  and region != ''"> and region = #{region}</if>
+        </where>
+    </select>
+    
+</mapper>

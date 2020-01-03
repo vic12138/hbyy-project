@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.garbage.mapper.GarbageMapper">
+    
+    <resultMap type="com.ruoyi.project.garbage.domain.Garbage" id="GarbageResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="gExplain"    column="g_explain"    />
+        <result property="contain"    column="contain"    />
+        <result property="tip"    column="tip"    />
+        <result property="letterId"    column="letter_id"    />
+    </resultMap>
+
+    <sql id="selectGarbageVo">
+        select g.id, g.name, g.type, g.g_explain, g.contain, g.tip, g.letter_id from garbage as g
+    </sql>
+
+    <select id="selectGarbageList" parameterType="com.ruoyi.project.garbage.domain.Garbage" resultMap="GarbageResult">
+        <include refid="selectGarbageVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and g.name like concat('%', #{name}, '%')</if>
+            <if test="type != null "> and g.type = #{type}</if>
+            <if test="gExplain != null  and gExplain != ''"> and g.g_explain = #{gExplain}</if>
+            <if test="contain != null  and contain != ''"> and g.contain = #{contain}</if>
+            <if test="tip != null  and tip != ''"> and g.tip = #{tip}</if>
+            <if test="letterId != null "> and g.letter_id = #{letterId}</if>
+        </where>
+    </select>
+
+    <select id="selectGarbageById" parameterType="String" resultMap="GarbageResult">
+        <include refid="selectGarbageVo"/>
+        where g.id = #{id}
+    </select>
+
+    <insert id="insertGarbage" parameterType="com.ruoyi.project.garbage.domain.Garbage">
+        insert into garbage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != '' ">id,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="type != null ">type,</if>
+            <if test="gExplain != null  and gExplain != ''">g_explain,</if>
+            <if test="contain != null  and contain != ''">contain,</if>
+            <if test="tip != null  and tip != ''">tip,</if>
+            <if test="letterId != null ">letter_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != '' ">#{id},</if>
+            <if test="name != null  ">#{name},</if>
+            <if test="type != null ">#{type},</if>
+            <if test="gExplain != null  and gExplain != ''">#{gExplain},</if>
+            <if test="contain != null  and contain != ''">#{contain},</if>
+            <if test="tip != null  and tip != ''">#{tip},</if>
+            <if test="letterId != null ">#{letterId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGarbage" parameterType="com.ruoyi.project.garbage.domain.Garbage">
+        update garbage as g
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">g.name = #{name},</if>
+            <if test="type != null ">g.type = #{type},</if>
+            <if test="gExplain != null  and gExplain != ''">g.g_explain = #{gExplain},</if>
+            <if test="contain != null  and contain != ''">g.contain = #{contain},</if>
+            <if test="tip != null  and tip != ''">g.tip = #{tip},</if>
+            <if test="letterId != null ">g.letter_id = #{letterId},</if>
+        </trim>
+        where g.id = #{id}
+    </update>
+
+    <delete id="deleteGarbageById" parameterType="String">
+        delete from garbage where id = #{id}
+    </delete>
+
+    <delete id="deleteGarbageByIds" parameterType="String">
+        delete from garbage where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.information.mapper.InformationMapper">
+    
+    <resultMap type="com.ruoyi.project.information.domain.Information" id="InformationResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="infoImg"    column="info_img"    />
+        <result property="viewCount"    column="view_count"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectInformationVo">
+        select id, title, content, info_img, view_count, create_by, create_time, update_by, update_time, remark from information
+    </sql>
+
+    <select id="selectInformationList" parameterType="com.ruoyi.project.information.domain.Information" resultMap="InformationResult">
+        <include refid="selectInformationVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title like CONCAT('%',#{title},'%')  </if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="infoImg != null  and infoImg != ''"> and info_img = #{infoImg}</if>
+            <if test="viewCount != null  and viewCount != ''"> and view_count = #{viewCount}</if>
+        </where>
+    </select>
+    
+    <select id="selectInformationById" parameterType="String" resultMap="InformationResult">
+        <include refid="selectInformationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInformation" parameterType="com.ruoyi.project.information.domain.Information">
+        insert into information
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="title != null  and title != ''">title,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="infoImg != null  and infoImg != ''">info_img,</if>
+            <if test="viewCount != null  and viewCount != ''">view_count,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="infoImg != null  and infoImg != ''">#{infoImg},</if>
+            <if test="viewCount != null  and viewCount != ''">#{viewCount},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInformation" parameterType="com.ruoyi.project.information.domain.Information">
+        update information
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="infoImg != null  and infoImg != ''">info_img = #{infoImg},</if>
+            <if test="viewCount != null  and viewCount != ''">view_count = #{viewCount},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInformationById" parameterType="String">
+        delete from information where id = #{id}
+    </delete>
+
+    <delete id="deleteInformationByIds" parameterType="String">
+        delete from information where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

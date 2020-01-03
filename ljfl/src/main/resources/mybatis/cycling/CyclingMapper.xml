@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.cycling.mapper.CyclingMapper">
+    
+    <resultMap type="com.ruoyi.project.cycling.domain.Cycling" id="CyclingResult">
+        <result property="id"    column="id"    />
+        <result property="cyclingName"    column="cycling_name"    />
+        <result property="cyclingImg"    column="cycling_img"    />
+        <result property="cyclingMobile"    column="cycling_mobile"    />
+        <result property="cyclingMan"    column="cycling_man"    />
+        <result property="cyclingIntroduce"    column="cycling_introduce"    />
+        <result property="cyclingDetail"    column="cycling_detail"    />
+        <result property="cyclingAddress"    column="cycling_address"    />
+        <result property="addressX"    column="address_x"    />
+        <result property="addressY"    column="address_y"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectCyclingVo">
+        select id, cycling_name,cycling_img,cycling_mobile, cycling_man, cycling_introduce, cycling_detail, cycling_address,address_x,address_y,create_by, create_time, update_by, update_time, remark from cycling
+    </sql>
+
+    <select id="selectCyclingList" parameterType="com.ruoyi.project.cycling.domain.Cycling" resultMap="CyclingResult">
+        <include refid="selectCyclingVo"/>
+        <where>  
+            <if test="cyclingName != null  and cyclingName != ''"> and cycling_name like concat('%', #{cyclingName}, '%')</if>
+            <if test="cyclingMobile != null  and cyclingMobile != ''"> and cycling_mobile = #{cyclingMobile}</if>
+            <if test="cyclingMan != null  and cyclingMan != ''"> and cycling_man = #{cyclingMan}</if>
+            <if test="cyclingIntroduce != null  and cyclingIntroduce != ''"> and cycling_introduce = #{cyclingIntroduce}</if>
+            <if test="cyclingDetail != null  and cyclingDetail != ''"> and cycling_detail = #{cyclingDetail}</if>
+            <if test="cyclingAddress != null  and cyclingAddress != ''"> and cycling_address = #{cyclingAddress}</if>
+            <if test="addressX != null  and addressX != ''"> and address_x = #{addressX}</if>
+            <if test="addressY != null  and addressY != ''"> and address_y = #{addressY}</if>
+        </where>
+    </select>
+    
+    <select id="selectCyclingById" parameterType="String" resultMap="CyclingResult">
+        <include refid="selectCyclingVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCycling" parameterType="com.ruoyi.project.cycling.domain.Cycling">
+        insert into cycling
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="cyclingName != null  and cyclingName != ''">cycling_name,</if>
+            <if test="cyclingImg != null  and cyclingImg != ''">cycling_img,</if>
+            <if test="cyclingMobile != null  and cyclingMobile != ''">cycling_mobile,</if>
+            <if test="cyclingMan != null  and cyclingMan != ''">cycling_man,</if>
+            <if test="cyclingIntroduce != null  and cyclingIntroduce != ''">cycling_introduce,</if>
+            <if test="cyclingDetail != null  and cyclingDetail != ''">cycling_detail,</if>
+            <if test="cyclingAddress != null  and cyclingAddress != ''">cycling_address,</if>
+            <if test="addressX != null  and addressX != ''">address_x,</if>
+            <if test="addressY != null  and addressY != ''">address_y,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="cyclingName != null  and cyclingName != ''">#{cyclingName},</if>
+            <if test="cyclingImg != null  and cyclingImg != ''">#{cyclingImg},</if>
+            <if test="cyclingMobile != null  and cyclingMobile != ''">#{cyclingMobile},</if>
+            <if test="cyclingMan != null  and cyclingMan != ''">#{cyclingMan},</if>
+            <if test="cyclingIntroduce != null  and cyclingIntroduce != ''">#{cyclingIntroduce},</if>
+            <if test="cyclingDetail != null  and cyclingDetail != ''">#{cyclingDetail},</if>
+            <if test="cyclingAddress != null  and cyclingAddress != ''">#{cyclingAddress},</if>
+            <if test="addressX != null  and addressX != ''">#{addressX},</if>
+            <if test="addressY != null  and addressY != ''">#{addressY},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCycling" parameterType="com.ruoyi.project.cycling.domain.Cycling">
+        update cycling
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cyclingName != null  and cyclingName != ''">cycling_name = #{cyclingName},</if>
+            <if test="cyclingImg != null  and cyclingImg != ''">cycling_img = #{cyclingImg},</if>
+            <if test="cyclingMobile != null  and cyclingMobile != ''">cycling_mobile = #{cyclingMobile},</if>
+            <if test="cyclingMan != null  and cyclingMan != ''">cycling_man = #{cyclingMan},</if>
+            <if test="cyclingIntroduce != null  and cyclingIntroduce != ''">cycling_introduce = #{cyclingIntroduce},</if>
+            <if test="cyclingDetail != null  and cyclingDetail != ''">cycling_detail = #{cyclingDetail},</if>
+            <if test="cyclingAddress != null  and cyclingAddress != ''">cycling_address = #{cyclingAddress},</if>
+            <if test="addressX != null  and addressX != ''">address_x = #{addressX},</if>
+            <if test="addressY != null  and addressY != ''">address_y = #{addressY},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCyclingById" parameterType="String">
+        delete from cycling where id = #{id}
+    </delete>
+
+    <delete id="deleteCyclingByIds" parameterType="String">
+        delete from cycling where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
