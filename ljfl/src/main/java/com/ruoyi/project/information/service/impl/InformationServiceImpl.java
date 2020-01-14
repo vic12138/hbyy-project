@@ -98,4 +98,13 @@ public class InformationServiceImpl implements IInformationService
     {
         return informationMapper.deleteInformationById(id);
     }
+
+    /**
+     * 获取资讯list
+     * @return
+     */
+    @Override
+    public List<Information> getInfomationList() {
+        return informationMapper.selectInformationList(new Information());
+    }
 }

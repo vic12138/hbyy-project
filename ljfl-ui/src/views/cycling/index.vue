@@ -189,10 +189,9 @@
         <div class="amap-page-container">
           <el-amap-search-box class="search-box"
                               :on-search-result="onSearchResult"
-                              :center="center"></el-amap-search-box>
+                              ></el-amap-search-box>
           <el-amap :vid="'amap'"
                    :zoom="zoom"
-                   :center="center"
                    :events="events">
             <el-amap-text class="amap-container"  :text="marker.content" :offset="marker.offset" :position="marker.position" :events="marker.events"></el-amap-text>
             <el-amap-marker :position="marker.position"
@@ -258,8 +257,11 @@ export default {
         cyclingName: [
           { required: true, message: "回收站名称不能为空", trigger: "blur" }
         ],        cyclingMobile: [
-          { required: true, message: "回收站联系方式不能为空", trigger: "blur" }
-        ],        cyclingMan: [
+          { required: true, message: "回收站联系方式不能为空", trigger: "blur" },
+          { pattern:/^1[3456789]\d{9}$/,message:'请输入正确的手机号码',trigger:'blur'},
+        ],         cyclingImg: [
+          { required: true, message: "回收站图片不能为空", trigger: "blur" }
+        ],       cyclingMan: [
           { required: true, message: "回收站负责人不能为空", trigger: "blur" }
         ],        cyclingAddress: [
           { required: true, message: "回收站具体地址不能为空", trigger: "blur" }
@@ -273,10 +275,11 @@ export default {
       },
       prefix:process.env.VUE_APP_BASE_API,
       address:'请输入回收站具体地址',
+      contentAddress:"",
       zoom: 14,
-      center: [116.602489, 40.080734],
-      x:116.602489,
-      y:40.080734,
+      // center: [113.112414, 23.019643],
+      x:113.112414,
+      y:23.019643,
       marker: {
         position: [],
         offset: [0, -50],
@@ -298,8 +301,8 @@ export default {
             geocoder.getAddress([e.lnglat.lng ,e.lnglat.lat], function(status, result) {
               if (status === 'complete' && result.info === 'OK') {
                 if (result && result.regeocode) {
-                  that.address = result.regeocode.formattedAddress;
-                  that.marker.content = that.address;
+                  that.contentAddress = result.regeocode.formattedAddress;
+                  that.marker.content = that.contentAddress;
                   that.$nextTick();
                 }
               }
@@ -454,7 +457,6 @@ export default {
     },
     // 图片上传
     handleAvatarSuccess(res, file) {
-      console.log(res,file)
       this.imageUrl = URL.createObjectURL(file.raw);
       this.form.cyclingImg = res.imageUrl;
     },
@@ -485,6 +487,7 @@ export default {
     onSearchResult(pois) {
       let latSum = 0;
       let lngSum = 0;
+      console.log("------------",pois);
       pois.forEach(poi => {
         lngSum += poi.lng;
         latSum += poi.lat;
@@ -496,7 +499,7 @@ export default {
       this.center = [center.lng, center.lat];
     },
     submit() {
-      console.log('callback', this.address);
+      this.address = this.contentAddress;
       this.$emit('callback', this.marker.position);
       this.dialogVisible = false
     }

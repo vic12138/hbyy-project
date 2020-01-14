@@ -58,4 +58,12 @@ public interface ILetterService
      * @return 结果
      */
     public int deleteLetterById(Long id);
+
+    /**
+     * 获取所有字母表列表
+     *
+     * @param
+     * @return 字母表集合
+     */
+    public List<Letter> getAllLetterList();
 }

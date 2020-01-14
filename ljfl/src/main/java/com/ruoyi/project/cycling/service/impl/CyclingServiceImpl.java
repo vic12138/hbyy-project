@@ -98,4 +98,13 @@ public class CyclingServiceImpl implements ICyclingService
     {
         return cyclingMapper.deleteCyclingById(id);
     }
+
+    /**
+     * 获取回收站list
+     * @return
+     */
+    @Override
+    public List<Cycling> getCyclingList() {
+        return cyclingMapper.selectCyclingList(new Cycling());
+    }
 }

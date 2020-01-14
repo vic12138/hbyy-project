@@ -58,4 +58,10 @@ public interface IGarbageService
      * @return 结果
      */
     public int deleteGarbageById(String id);
+
+    /**
+     * 获取垃圾集合
+     * @return
+     */
+    List<Garbage> getGarbageList();
 }

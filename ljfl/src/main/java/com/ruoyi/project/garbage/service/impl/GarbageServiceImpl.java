@@ -116,4 +116,13 @@ public class GarbageServiceImpl implements IGarbageService
     {
         return garbageMapper.deleteGarbageById(id);
     }
+
+    /**
+     * 获取垃圾分类集合
+     * @return
+     */
+    @Override
+    public List<Garbage> getGarbageList() {
+        return garbageMapper.selectGarbageList(new Garbage());
+    }
 }

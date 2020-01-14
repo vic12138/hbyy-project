@@ -1,9 +1,12 @@
 package com.ruoyi.project.letter.domain;
 
+import com.ruoyi.project.garbage.domain.Garbage;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
+
+import java.util.List;
 
 /**
  * 字母表对象 letter
@@ -22,6 +25,9 @@ public class Letter extends BaseEntity
     @Excel(name = "字母")
     private String region;
 
+    /** 垃圾列表 */
+    private List<Garbage> garbageList;
+
     public void setId(Long id) 
     {
         this.id = id;
@@ -39,6 +45,14 @@ public class Letter extends BaseEntity
     public String getRegion() 
     {
         return region;
+    }
+
+    public List<Garbage> getGarbageList() {
+        return garbageList;
+    }
+
+    public void setGarbageList(List<Garbage> garbageList) {
+        this.garbageList = garbageList;
     }
 
     @Override

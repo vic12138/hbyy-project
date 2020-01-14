@@ -62,6 +62,12 @@ public class Garbage extends BaseEntity
     @Excel(name = "更新日期")
     private Date updateTime;
 
+    /** 字母 */
+    private String region;
+
+    /** 删除标志（0代表存在 1代表删除） */
+    private String delFlag;
+
     public void setId(String id)
     {
         this.id = id;
@@ -164,6 +170,22 @@ public class Garbage extends BaseEntity
     @Override
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
     }
 
     @Override

@@ -101,5 +101,4 @@ public class GarbageController extends BaseController
     {
         return toAjax(garbageService.deleteGarbageByIds(ids));
     }
-
 }

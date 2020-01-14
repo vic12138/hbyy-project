@@ -58,4 +58,10 @@ public interface ICyclingService
      * @return 结果
      */
     public int deleteCyclingById(String id);
+
+    /**
+     * 获取回收站list
+     * @return
+     */
+    public List<Cycling> getCyclingList();
 }

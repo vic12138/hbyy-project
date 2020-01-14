@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="contain"    column="contain"    />
         <result property="tip"    column="tip"    />
         <result property="letterId"    column="letter_id"    />
+        <result property="region"    column="region"    />
     </resultMap>
 
     <sql id="selectGarbageVo">
@@ -19,7 +20,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectGarbageList" parameterType="com.ruoyi.project.garbage.domain.Garbage" resultMap="GarbageResult">
-        <include refid="selectGarbageVo"/>
+        select g.id, g.name, g.type, g.g_explain, g.contain, g.tip, g.letter_id,
+        l.region
+        from garbage as g
+        left JOIN letter as l on l.id = g.letter_id
         <where>
             <if test="name != null  and name != ''"> and g.name like concat('%', #{name}, '%')</if>
             <if test="type != null "> and g.type = #{type}</if>

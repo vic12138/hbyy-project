@@ -59,5 +59,16 @@ public interface LetterMapper
      */
     public int deleteLetterByIds(Long[] ids);
 
+    /**
+     * 根据字母获取id
+     * @param firstLetter
+     * @return
+     */
     Letter selectLetterByRegion(String firstLetter);
+
+    /**
+     * 获取小程序分类列表
+     * @return
+     */
+    List<Letter> selectGarbageList();
 }

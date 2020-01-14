@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="content"    column="content"    />
         <result property="infoImg"    column="info_img"    />
         <result property="viewCount"    column="view_count"    />
+        <result property="source"    column="source"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
@@ -18,13 +19,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectInformationVo">
-        select id, title, content, info_img, view_count, create_by, create_time, update_by, update_time, remark from information
+        select id, title, content, source,info_img, view_count, create_by, create_time, update_by, update_time, remark from information
     </sql>
 
     <select id="selectInformationList" parameterType="com.ruoyi.project.information.domain.Information" resultMap="InformationResult">
         <include refid="selectInformationVo"/>
         <where>  
             <if test="title != null  and title != ''"> and title like CONCAT('%',#{title},'%')  </if>
+            <if test="source != null  and source != ''"> and source like CONCAT('%',#{source},'%')  </if>
             <if test="content != null  and content != ''"> and content = #{content}</if>
             <if test="infoImg != null  and infoImg != ''"> and info_img = #{infoImg}</if>
             <if test="viewCount != null  and viewCount != ''"> and view_count = #{viewCount}</if>
@@ -42,6 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="id != null ">id,</if>
             <if test="title != null  and title != ''">title,</if>
             <if test="content != null  and content != ''">content,</if>
+            <if test="source != null  and source != ''">source,</if>
             <if test="infoImg != null  and infoImg != ''">info_img,</if>
             <if test="viewCount != null  and viewCount != ''">view_count,</if>
             <if test="createBy != null  and createBy != ''">create_by,</if>
@@ -54,6 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="id != null ">#{id},</if>
             <if test="title != null  and title != ''">#{title},</if>
             <if test="content != null  and content != ''">#{content},</if>
+            <if test="source != null  and source != ''">#{source},</if>
             <if test="infoImg != null  and infoImg != ''">#{infoImg},</if>
             <if test="viewCount != null  and viewCount != ''">#{viewCount},</if>
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
@@ -69,6 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="title != null  and title != ''">title = #{title},</if>
             <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="source != null  and source != ''">source = #{source},</if>
             <if test="infoImg != null  and infoImg != ''">info_img = #{infoImg},</if>
             <if test="viewCount != null  and viewCount != ''">view_count = #{viewCount},</if>
             <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>

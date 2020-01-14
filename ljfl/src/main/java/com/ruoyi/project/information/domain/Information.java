@@ -30,9 +30,16 @@ public class Information extends BaseEntity
     @Excel(name = "资讯图片")
     private String infoImg;
 
+    /** 资讯图片 */
+    @Excel(name = "资讯出处")
+    private String source;
+
     /** 观看数 */
     @Excel(name = "观看数")
     private String viewCount;
+
+    /** 删除标志（0代表存在 1代表删除） */
+    private String delFlag;
 
     public void setId(String id)
     {
@@ -78,6 +85,22 @@ public class Information extends BaseEntity
     public String getViewCount() 
     {
         return viewCount;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
     }
 
     @Override

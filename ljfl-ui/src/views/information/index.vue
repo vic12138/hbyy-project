@@ -10,15 +10,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <!--<el-form-item label="资讯内容" prop="content">-->
-        <!--<el-input-->
-          <!--v-model="queryParams.content"-->
-          <!--placeholder="请输入资讯内容"-->
-          <!--clearable-->
-          <!--size="small"-->
-          <!--@keyup.enter.native="handleQuery"-->
-        <!--/>-->
-      <!--</el-form-item>-->
+      <el-form-item label="资讯内容" prop="source">
+        <el-input
+          v-model="queryParams.source"
+          placeholder="请输入资讯内容"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <!--<el-form-item label="资讯图片" prop="infoImg">-->
         <!--<el-input-->
           <!--v-model="queryParams.infoImg"-->
@@ -90,7 +90,7 @@
       <el-table-column label="资讯标题" align="center" prop="title" />
       <!--<el-table-column label="资讯内容" align="center" prop="content" />-->
       <!--<el-table-column label="资讯图片" align="center" prop="infoImg" />-->
-      <!--<el-table-column label="观看数" align="center" prop="viewCount" />-->
+      <el-table-column label="出处" align="center" prop="source" />
       <el-table-column label="创建日期" align="center" prop="createTime" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -125,6 +125,9 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="15%">
         <el-form-item label="资讯标题" prop="title">
           <el-input v-model="form.title" placeholder="请输入资讯标题" />
+        </el-form-item>
+        <el-form-item label="资讯出处" prop="title">
+          <el-input v-model="form.source" placeholder="请输入资讯出处" />
         </el-form-item>
         <el-form-item label="资讯图片" prop="infoImg">
           <!--<el-input v-model="form.infoImg" placeholder="请输入资讯图片" />-->
@@ -183,6 +186,7 @@ export default {
         content: undefined,
         infoImg: undefined,
         viewCount: undefined,
+        source: undefined,
       },
       // 表单参数
       form: {},
@@ -192,15 +196,15 @@ export default {
           { required: true, message: "资讯标题不能为空", trigger: "blur" }
         ],        content: [
           { required: true, message: "资讯内容不能为空", trigger: "blur" }
-        ],        viewCount: [
-          { required: true, message: "观看数不能为空", trigger: "blur" }
-        ],      },
+        ],        source: [
+          { required: true, message: "出处不能为空", trigger: "blur" }
+        ],   },
       imageUrl:'',
       upload:{
         // 设置上传的请求头部
         headers: { Authorization: "Bearer " + getToken() },
-        // 上传回收站图片的地址
-        url: process.env.VUE_APP_BASE_API + "/cycling/uploadCyclingImg",
+        // 上传资讯图片的地址
+        url: process.env.VUE_APP_BASE_API + "/information/uploadInfoImg",
       },
       prefix:process.env.VUE_APP_BASE_API,
     };
@@ -236,7 +240,8 @@ export default {
         createTime: undefined,
         updateBy: undefined,
         updateTime: undefined,
-        remark: undefined
+        remark: undefined,
+        source: undefined,
       };
       this.imageUrl = '',
       this.resetForm("form");
@@ -337,7 +342,7 @@ export default {
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg';
       const isLt2M = file.size / 1024 / 1024 < 2;
-      console.log("上传图片信息",file)
+      // console.log("上传图片信息",file)
       if (!isJPG) {
         this.$message.error('上传图片只能是 JPG 格式!');
       }

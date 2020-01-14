@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.appImg.mapper.AppImgMapper">
+    
+    <resultMap type="com.ruoyi.project.appImg.domain.AppImg" id="AppImgResult">
+        <result property="id"    column="id"    />
+        <result property="imgPath"    column="img_path"    />
+        <result property="imgTab"    column="img_tab"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="openFlag"    column="open_flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectAppImgVo">
+        select id, img_path, img_tab,open_flag, del_flag, create_time, update_by, update_time, remark from app_img
+    </sql>
+
+    <select id="selectAppImgList" parameterType="com.ruoyi.project.appImg.domain.AppImg" resultMap="AppImgResult">
+        <include refid="selectAppImgVo"/>
+        <where>  
+            <if test="imgPath != null  and imgPath != ''"> and img_path = #{imgPath}</if>
+            <if test="imgTab != null  and imgTab != ''"> and img_tab = #{imgTab}</if>
+        </where>
+    </select>
+    
+    <select id="selectAppImgById" parameterType="String" resultMap="AppImgResult">
+        <include refid="selectAppImgVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAppImg" parameterType="com.ruoyi.project.appImg.domain.AppImg">
+        insert into app_img
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="imgPath != null  and imgPath != ''">img_path,</if>
+            <if test="imgTab != null  and imgTab != ''">img_tab,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="openFlag != null  and openFlag != ''">open_flag,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="imgPath != null  and imgPath != ''">#{imgPath},</if>
+            <if test="imgTab != null  and imgTab != ''">#{imgTab},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="openFlag != null  and openFlag != ''">#{openFlag},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAppImg" parameterType="com.ruoyi.project.appImg.domain.AppImg">
+        update app_img
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="imgPath != null  and imgPath != ''">img_path = #{imgPath},</if>
+            <if test="imgTab != null  and imgTab != ''">img_tab = #{imgTab},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="openFlag != null  and openFlag != ''">open_flag = #{openFlag},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAppImgById" parameterType="String">
+        delete from app_img where id = #{id}
+    </delete>
+
+    <delete id="deleteAppImgByIds" parameterType="String">
+        delete from app_img where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

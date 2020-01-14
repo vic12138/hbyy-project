@@ -129,4 +129,11 @@ public class RuoYiConfig
     {
         return getProfile() + "/infoImg";
     }
+    /**
+     * 获取图片上传路径
+     */
+    public static String getUploadImgPath()
+    {
+        return getProfile() + "/imgs";
+    }
 }

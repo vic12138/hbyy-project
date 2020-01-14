@@ -58,4 +58,10 @@ public interface IInformationService
      * @return 结果
      */
     public int deleteInformationById(String id);
+
+    /**
+     * 获取资讯list
+     * @return
+     */
+    public List<Information> getInfomationList();
 }

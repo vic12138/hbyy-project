@@ -7,6 +7,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="com.ruoyi.project.letter.domain.Letter" id="LetterResult">
         <result property="id"    column="id"    />
         <result property="region"    column="region"    />
+        <collection property="garbageList" ofType="com.ruoyi.project.garbage.domain.Garbage" javaType="java.util.List">
+            <id column="garbageId" jdbcType="INTEGER" property="id" />
+            <result column="name" property="name" jdbcType="VARCHAR" />
+            <result column="type" property="type" jdbcType="INTEGER" />
+            <result column="g_explain" property="gExplain" jdbcType="VARCHAR" />
+            <result column="contain" property="contain" jdbcType="VARCHAR" />
+            <result column="tip" property="tip" jdbcType="VARCHAR" />
+        </collection>
     </resultMap>
 
     <sql id="selectLetterVo">
@@ -59,6 +67,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="region != null  and region != ''"> and region = #{region}</if>
         </where>
+    </select>
+
+    <select id="selectGarbageList" resultMap="LetterResult" >
+            select
+                g.id as garbageId,g.name,g.type,g.g_explain,g.contain,g.tip,l.region,l.id
+            from
+                letter as l
+            left join
+                garbage as g on l.id = g.letter_id
+            where g.name != ''
+            ORDER BY l.region
     </select>
     
 </mapper>

@@ -90,4 +90,13 @@ public class LetterServiceImpl implements ILetterService
     {
         return letterMapper.deleteLetterById(id);
     }
+
+    /**
+     * 获取所有字母列表
+     * @return
+     */
+    @Override
+    public List<Letter> getAllLetterList() {
+        return letterMapper.selectGarbageList();
+    }
 }
