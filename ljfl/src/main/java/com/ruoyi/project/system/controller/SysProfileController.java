@@ -25,7 +25,7 @@ import com.ruoyi.project.system.service.ISysUserService;
 
 /**
  * 个人信息 业务处理
- * 
+ *
  * @author ruoyi
  */
 @RestController
@@ -37,7 +37,6 @@ public class SysProfileController extends BaseController
 
     @Autowired
     private TokenService tokenService;
-
     /**
      * 个人信息
      */
@@ -51,6 +50,7 @@ public class SysProfileController extends BaseController
         ajax.put("postGroup", userService.selectUserPostGroup(loginUser.getUsername()));
         return ajax;
     }
+    
 
     /**
      * 修改用户
