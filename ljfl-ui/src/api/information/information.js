@@ -51,3 +51,27 @@ export function exportInformation(query) {
     params: query
   })
 }
+
+// 查询资讯总条数
+export function getInformationCount() {
+  return request({
+    url: '/information/getInfoCount',
+    method: 'get'
+  })
+}
+
+// 查询资讯观看总条数
+export function getInformationViewCount() {
+  return request({
+    url: '/information/getInfoViewCount',
+    method: 'get'
+  })
+}
+
+// 查询线形图资讯数据
+export function getInformationLine() {
+  return request({
+    url: '/information/getInfoLine',
+    method: 'get'
+  })
+}

@@ -1,6 +1,8 @@
 package com.ruoyi.project.information.service;
 
 import com.ruoyi.project.information.domain.Information;
+import com.ruoyi.project.information.domain.Line;
+
 import java.util.List;
 
 /**
@@ -64,4 +66,31 @@ public interface IInformationService
      * @return
      */
     public List<Information> getInfomationList();
+
+    /**
+     * 新增点击量
+     * @return
+     */
+    public int addViewCount(Information information);
+
+    /**
+     * 获取资讯总条数
+     *
+     * @return
+     */
+    public int getTotalCount();
+
+    /**
+     * 获取资讯观看总数
+     *
+     * @return
+     */
+    public int getViewCount();
+
+    /**
+     * 获取线形图数据
+     *
+     * @return
+     */
+    public Line[] getInformationLine();
 }

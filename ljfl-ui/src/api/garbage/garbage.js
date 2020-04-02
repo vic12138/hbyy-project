@@ -51,3 +51,12 @@ export function exportGarbage(query) {
     params: query
   })
 }
+
+
+// 查询垃圾分类总数
+export function getGarbageCount() {
+  return request({
+    url: '/garbage/getCount',
+    method: 'get'
+  })
+}

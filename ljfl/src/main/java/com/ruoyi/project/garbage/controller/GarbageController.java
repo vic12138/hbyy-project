@@ -101,4 +101,17 @@ public class GarbageController extends BaseController
     {
         return toAjax(garbageService.deleteGarbageByIds(ids));
     }
+
+
+    /**
+     * 获取垃圾分类总数
+     */
+    @Log(title = "获取垃圾分类总数")
+    @GetMapping("/getCount")
+    public AjaxResult GetCount()
+    {
+        return AjaxResult.success(garbageService.getGarbageList().size());
+    }
+
+
 }

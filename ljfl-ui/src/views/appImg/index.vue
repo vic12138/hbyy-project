@@ -26,16 +26,16 @@
           v-hasPermi="['system:img:add']"
         >新增</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['system:img:edit']"
-        >修改</el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="success"-->
+<!--          icon="el-icon-edit"-->
+<!--          size="mini"-->
+<!--          :disabled="single"-->
+<!--          @click="handleUpdate"-->
+<!--          v-hasPermi="['system:img:edit']"-->
+<!--        >修改</el-button>-->
+<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="danger"
@@ -46,15 +46,15 @@
           v-hasPermi="['system:img:remove']"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:img:export']"
-        >导出</el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="warning"-->
+<!--          icon="el-icon-download"-->
+<!--          size="mini"-->
+<!--          @click="handleExport"-->
+<!--          v-hasPermi="['system:img:export']"-->
+<!--        >导出</el-button>-->
+<!--      </el-col>-->
     </el-row>
 
     <el-table v-loading="loading" :data="imgList" @selection-change="handleSelectionChange">
@@ -66,7 +66,8 @@
           <el-image
             style="width: 100px; height: 100px"
             :src="prefix+scope.row.imgPath"
-            :fit="fit"></el-image>
+            :previewSrcList="[prefix+scope.row.imgPath]"
+            ></el-image>
         </template>
       </el-table-column>
       <el-table-column label="开启状态" align="center">
@@ -108,9 +109,9 @@
     />
 
     <!-- 添加或修改图片轮播图对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="50%">
+    <el-dialog :title="title" :visible.sync="open" width="50%" :close-on-click-modal="false">
       <el-form ref="form" :model="form" :rules="rules" label-width="15%">
-        <el-form-item label="图片：" prop="infoImg">
+        <el-form-item label="图片：" prop="imgPath">
           <el-upload
             class="avatar-uploader"
             :headers = upload.headers
@@ -174,12 +175,14 @@ export default {
       // 表单校验
       rules: {
         imgPath: [
-          { required: true, message: "图片路径不能为空", trigger: "blur" }
+          { required: true, message: "图片不能为空", trigger: "blur" }
         ],        imgTab: [
           { required: true, message: "图片标记（0-首页，1-资讯页）不能为空", trigger: "blur" }
         ],        delFlag: [
           { required: true, message: "删除标志（0代表存在 1代表删除）不能为空", trigger: "blur" }
-        ],      },
+        ],     infoImg:[
+          { required: true, message: "图片不能为空", trigger: "blur" }
+        ],},
       imageUrl:'',
       upload:{
         // 设置上传的请求头部
@@ -221,6 +224,7 @@ export default {
         updateTime: undefined,
         remark: undefined
       };
+      this.imageUrl=undefined;
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
@@ -287,7 +291,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$confirm('是否确认删除这张图片?', "警告", {
+      this.$confirm('是否确认删除图片?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"

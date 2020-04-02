@@ -5,6 +5,7 @@ import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.IdUtils;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.project.information.domain.Information;
+import com.ruoyi.project.information.domain.Line;
 import com.ruoyi.project.information.mapper.InformationMapper;
 import com.ruoyi.project.information.service.IInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,5 +107,49 @@ public class InformationServiceImpl implements IInformationService
     @Override
     public List<Information> getInfomationList() {
         return informationMapper.selectInformationList(new Information());
+    }
+
+    /**
+     * 增加点击量
+     *
+     * @param information 资讯管理
+     * @return 结果
+     */
+    @Override
+    public int addViewCount(Information information)
+    {
+        Integer viewCount = Integer.parseInt(information.getViewCount()) + 1;
+        information.setViewCount(viewCount.toString());
+        return informationMapper.updateInformation(information);
+    }
+
+    /**
+     * 获取资讯总条数
+     *
+     * @return
+     */
+    @Override
+    public int getTotalCount() {
+        return informationMapper.selectTotalCount();
+    }
+
+    /**
+     * 获取资讯观看总数
+     *
+     * @return
+     */
+    @Override
+    public int getViewCount() {
+        return informationMapper.selectViewCount();
+    }
+
+    /**
+     * 获取线形图数据
+     *
+     * @return
+     */
+    @Override
+    public Line[] getInformationLine() {
+        return informationMapper.selectLine();
     }
 }

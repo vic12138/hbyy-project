@@ -115,4 +115,13 @@ public class CyclingController extends BaseController
         }
         return AjaxResult.error("上传图片异常，请联系管理员");
     }
+
+    /**
+     * 获取回收站总数
+     */
+    @GetMapping("/getCount")
+    public AjaxResult GetCount()
+    {
+        return AjaxResult.success(cyclingService.getCyclingList(new Cycling()).size());
+    }
 }

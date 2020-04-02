@@ -1,7 +1,7 @@
 # 项目相关配置
 ruoyi:
   # 名称
-  name: RuoYi
+  name: ljfl
   # 版本
   version: 2.0.0
   # 版权年份
@@ -9,7 +9,8 @@ ruoyi:
   # 实例演示开关
   demoEnabled: true
   # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
-  profile: E:\project\ljfl\ljfl_project\uploadPath
+#  profile: E:\project\ljfl\ljfl_project\uploadPath
+  profile: /home/ljfl/uploadPath
   # 获取ip地址开关
   addressEnabled: true
 
@@ -58,9 +59,10 @@ spring:
   # redis 配置
   redis:
     # 地址
-    host: localhost
+    host: 116.62.162.64
     # 端口，默认为6379
     port: 6379
+    password: asd3321999
     # 连接超时时间
     timeout: 10s
     lettuce:
@@ -73,6 +75,7 @@ spring:
         max-active: 8
         # #连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1ms
+
 
 # token配置
 token:

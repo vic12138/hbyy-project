@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-      <el-form-item label="垃圾分类名称" prop="name">
+      <el-form-item label="分类名称" prop="name">
         <el-input
           v-model="queryParams.name"
           placeholder="请输入垃圾分类名称"
@@ -10,7 +10,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-        <el-form-item label="垃圾分类类型" prop="type">
+        <el-form-item label=" 分类类型" prop="type">
         <el-select v-model="queryParams.type" placeholder="请选择垃圾分类类型" clearable size="small">
           <el-option
             v-for="dict in garbageTypeOptions"
@@ -92,15 +92,15 @@
           v-hasPermi="['system:garbage:remove']"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:garbage:export']"
-        >导出</el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="warning"-->
+<!--          icon="el-icon-download"-->
+<!--          size="mini"-->
+<!--          @click="handleExport"-->
+<!--          v-hasPermi="['system:garbage:export']"-->
+<!--        >导出</el-button>-->
+<!--      </el-col>-->
     </el-row>
 
     <el-table v-loading="loading" :data="garbageList" @selection-change="handleSelectionChange">
@@ -108,9 +108,9 @@
       <!--<el-table-column label="垃圾分类id" align="center" prop="id" />-->
       <el-table-column label="垃圾分类名称" align="center" prop="name" />
       <el-table-column label="垃圾分类类型" align="center" prop="type" :formatter="garbageTypeFormat"/>
-      <el-table-column label="解释" align="center" prop="gExplain" />
-      <el-table-column label="包含物品" align="center" prop="contain" />
-      <el-table-column label="投放提示" align="center" prop="tip" />
+<!--      <el-table-column label="解释" align="center" prop="gExplain" />-->
+<!--      <el-table-column label="包含物品" align="center" prop="contain" />-->
+<!--      <el-table-column label="投放提示" align="center" prop="tip" />-->
       <el-table-column label="字母" align="center" prop="letterId" :formatter="letterFormat"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -141,10 +141,10 @@
     />
 
     <!-- 添加或修改垃圾分类对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="50%">
+    <el-dialog :title="title" :visible.sync="open" width="50%" :close-on-click-modal="false">
       <el-form ref="form" :model="form" :rules="rules" label-width="15%">
         <el-form-item label="垃圾分类名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入垃圾分类名称" />
+          <el-input v-model="form.name" maxlength="20"  show-word-limit placeholder="请输入垃圾分类名称" />
         </el-form-item>
         <el-form-item label="垃圾分类类型">
           <el-select v-model="form.type" placeholder="请选择垃圾分类类型" style="width:100%">
@@ -157,16 +157,16 @@
           </el-select>
         </el-form-item>
         <el-form-item label="解释" prop="gExplain">
-          <el-input type="textarea" v-model="form.gExplain" placeholder="请输入解释" />
+          <el-input type="textarea" v-model="form.gExplain" maxlength="200"  show-word-limit placeholder="请输入解释" />
         </el-form-item>
         <el-form-item label="包含物品" prop="contain">
-          <el-input type="textarea" v-model="form.contain" placeholder="请输入包含物品" />
+          <el-input type="textarea" v-model="form.contain" maxlength="200"  show-word-limit placeholder="请输入包含物品" />
         </el-form-item>
         <el-form-item label="投放提示" prop="tip">
-          <el-input type="textarea" v-model="form.tip" placeholder="请输入投放提示" />
+          <el-input type="textarea" v-model="form.tip" maxlength="200"  show-word-limit placeholder="请输入投放提示" />
         </el-form-item>
         <el-form-item label="字母" prop="letterId">
-          <el-select v-model="form.letterId" placeholder="请选择字母">
+          <el-select v-model="form.letterId" placeholder="请选择字母"  style="width:100%">
           <el-option
             v-for="item in letterOptions"
             :key="item.id"
@@ -331,7 +331,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$confirm('是否确认删除垃圾分类编号为"' + ids + '"的数据项?', "警告", {
+      this.$confirm('是否确认删除垃圾分类?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"

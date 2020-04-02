@@ -6,6 +6,7 @@ import java.util.List;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.project.information.domain.Information;
+import com.ruoyi.project.information.domain.Line;
 import com.ruoyi.project.information.service.IInformationService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,5 +115,35 @@ public class InformationController extends BaseController
             return ajax;
         }
         return AjaxResult.error("上传图片异常，请联系管理员");
+    }
+
+    /**
+     * 查询资讯总条数
+     */
+    @GetMapping("/getInfoCount")
+    public AjaxResult getInfoCount()
+    {
+        return AjaxResult.success(informationService.getInfomationList().size());
+    }
+
+
+    /**
+     * 查询资讯观看数
+     */
+    @GetMapping("/getInfoViewCount")
+    public AjaxResult getInfoViewCount()
+    {
+        int count = informationService.getViewCount();
+        return AjaxResult.success(count);
+    }
+
+    /**
+     * 获取资讯线形图数据
+     */
+    @GetMapping("/getInfoLine")
+    public AjaxResult getInfoLine()
+    {
+        Line[] line = informationService.getInformationLine();
+        return AjaxResult.success(line);
     }
 }

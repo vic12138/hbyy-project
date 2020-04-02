@@ -10,14 +10,26 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="资讯内容" prop="source">
+      <el-form-item label="出处" prop="source">
         <el-input
           v-model="queryParams.source"
-          placeholder="请输入资讯内容"
+          placeholder="请输入出处"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
+      </el-form-item>
+      <el-form-item label="创建时间">
+        <el-date-picker
+          v-model="dateRange"
+          size="small"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
       <!--<el-form-item label="资讯图片" prop="infoImg">-->
         <!--<el-input-->
@@ -73,15 +85,15 @@
           v-hasPermi="['system:information:remove']"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:information:export']"
-        >导出</el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="warning"-->
+<!--          icon="el-icon-download"-->
+<!--          size="mini"-->
+<!--          @click="handleExport"-->
+<!--          v-hasPermi="['system:information:export']"-->
+<!--        >导出</el-button>-->
+<!--      </el-col>-->
     </el-row>
 
     <el-table v-loading="loading" :data="informationList" @selection-change="handleSelectionChange">
@@ -91,7 +103,7 @@
       <!--<el-table-column label="资讯内容" align="center" prop="content" />-->
       <!--<el-table-column label="资讯图片" align="center" prop="infoImg" />-->
       <el-table-column label="出处" align="center" prop="source" />
-      <el-table-column label="创建日期" align="center" prop="createTime" />
+      <el-table-column label="创建日期" align="center" prop="createTime" sortable />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -121,13 +133,13 @@
     />
 
     <!-- 添加或修改资讯管理对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="50%">
+    <el-dialog :title="title" :visible.sync="open" width="50%" :close-on-click-modal="false">
       <el-form ref="form" :model="form" :rules="rules" label-width="15%">
         <el-form-item label="资讯标题" prop="title">
-          <el-input v-model="form.title" placeholder="请输入资讯标题" />
+          <el-input v-model="form.title" placeholder="请输入资讯标题" maxlength="50" show-word-limit/>
         </el-form-item>
         <el-form-item label="资讯出处" prop="title">
-          <el-input v-model="form.source" placeholder="请输入资讯出处" />
+          <el-input v-model="form.source" placeholder="请输入资讯出处" maxlength="20" show-word-limit/>
         </el-form-item>
         <el-form-item label="资讯图片" prop="infoImg">
           <!--<el-input v-model="form.infoImg" placeholder="请输入资讯图片" />-->
@@ -144,7 +156,7 @@
         </el-form-item>
 
         <el-form-item label="资讯内容" prop="content">
-          <el-input type="textarea" :rows="4" v-model="form.content" placeholder="请输入资讯内容" />
+          <el-input type="textarea" :rows="4" v-model="form.content" placeholder="请输入资讯内容" maxlength="500" show-word-limit/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -178,6 +190,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 日期范围
+      dateRange: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -196,7 +210,9 @@ export default {
           { required: true, message: "资讯标题不能为空", trigger: "blur" }
         ],        content: [
           { required: true, message: "资讯内容不能为空", trigger: "blur" }
-        ],        source: [
+        ],        infoImg: [
+          { required: true, message: "回收站图片不能为空", trigger: "blur" }
+        ],   source: [
           { required: true, message: "出处不能为空", trigger: "blur" }
         ],   },
       imageUrl:'',
@@ -216,7 +232,7 @@ export default {
     /** 查询资讯管理列表 */
     getList() {
       this.loading = true;
-      listInformation(this.queryParams).then(response => {
+      listInformation(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.informationList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -253,6 +269,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.dateRange = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -310,7 +327,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$confirm('是否确认删除资讯《' + row.title + '》的数据?', "警告", {
+      this.$confirm('是否确认删除资讯?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"

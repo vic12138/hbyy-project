@@ -30,6 +30,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="content != null  and content != ''"> and content = #{content}</if>
             <if test="infoImg != null  and infoImg != ''"> and info_img = #{infoImg}</if>
             <if test="viewCount != null  and viewCount != ''"> and view_count = #{viewCount}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+            </if>
+            <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+            </if>
         </where>
     </select>
     
@@ -85,15 +91,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteInformationById" parameterType="String">
+    <delete id="deleteInformationById" parameterType="java.lang.String">
         delete from information where id = #{id}
     </delete>
 
-    <delete id="deleteInformationByIds" parameterType="String">
+    <delete id="deleteInformationByIds" parameterType="java.lang.String">
         delete from information where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
+    
+    <select id="selectTotalCount" resultType="int">
+        select count(*) from information WHERE del_flag = "0"
+    </select>
+
+    <select id="selectViewCount" resultType="int">
+        select sum(view_count) from information WHERE del_flag = "0"
+    </select>
+
+    <select id = "selectLine" resultType="com.ruoyi.project.information.domain.Line">
+        select count(*) as pushNumber,DATE_FORMAT(create_time,'%Y-%m-%d') as time  from information group by DATE_FORMAT(create_time,'%Y-%m-%d') ORDER BY DATE_FORMAT(create_time,'%Y-%m-%d') ASC
+    </select>
     
 </mapper>

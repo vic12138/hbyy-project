@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="cyclingMan != null  and cyclingMan != ''"> and cycling_man = #{cyclingMan}</if>
             <if test="cyclingIntroduce != null  and cyclingIntroduce != ''"> and cycling_introduce = #{cyclingIntroduce}</if>
             <if test="cyclingDetail != null  and cyclingDetail != ''"> and cycling_detail = #{cyclingDetail}</if>
-            <if test="cyclingAddress != null  and cyclingAddress != ''"> and cycling_address = #{cyclingAddress}</if>
+            <if test="cyclingAddress != null  and cyclingAddress != ''"> and cycling_address like concat('%', #{cyclingAddress}, '%')</if>
             <if test="addressX != null  and addressX != ''"> and address_x = #{addressX}</if>
             <if test="addressY != null  and addressY != ''"> and address_y = #{addressY}</if>
         </where>

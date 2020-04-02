@@ -51,3 +51,11 @@ export function exportCycling(query) {
     params: query
   })
 }
+
+// 查询回收站总数
+export function getCyclingCount() {
+  return request({
+    url: '/cycling/getCount',
+    method: 'get'
+  })
+}

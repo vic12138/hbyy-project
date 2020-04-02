@@ -25,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="imgPath != null  and imgPath != ''"> and img_path = #{imgPath}</if>
             <if test="imgTab != null  and imgTab != ''"> and img_tab = #{imgTab}</if>
+            <if test="openFlag != null  and openFlag != ''"> and open_flag = #{openFlag}</if>
         </where>
     </select>
     

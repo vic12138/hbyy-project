@@ -1,6 +1,8 @@
 package com.ruoyi.project.information.mapper;
 
 import com.ruoyi.project.information.domain.Information;
+import com.ruoyi.project.information.domain.Line;
+
 import java.util.List;
 
 /**
@@ -58,4 +60,26 @@ public interface InformationMapper
      * @return 结果
      */
     public int deleteInformationByIds(String[] ids);
+
+    /**
+     * 获取资讯总条数
+     *
+     * @return
+     */
+    public int selectTotalCount();
+
+    /**
+     * 获取资讯观看总数
+     *
+     * @return
+     */
+    public int selectViewCount();
+
+    /**
+     * 获取首页线形图数据
+     * 日期和发布资讯数
+     *
+     * @return
+     */
+    public Line[] selectLine();
 }

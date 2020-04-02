@@ -63,5 +63,5 @@ public interface ICyclingService
      * 获取回收站list
      * @return
      */
-    public List<Cycling> getCyclingList();
+    public List<Cycling> getCyclingList(Cycling cycling);
 }

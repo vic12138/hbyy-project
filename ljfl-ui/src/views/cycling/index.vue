@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-      <el-form-item label="回收站名称" prop="cyclingName">
+      <el-form-item label="名称" prop="cyclingName">
         <el-input
           v-model="queryParams.cyclingName"
           placeholder="请输入回收站名称"
@@ -10,7 +10,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="回收站联系方式" prop="cyclingMobile">
+      <el-form-item label="联系方式" prop="cyclingMobile">
         <el-input
           v-model="queryParams.cyclingMobile"
           placeholder="请输入回收站联系方式"
@@ -19,7 +19,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="回收站负责人" prop="cyclingMan">
+      <el-form-item label="负责人" prop="cyclingMan">
         <el-input
           v-model="queryParams.cyclingMan"
           placeholder="请输入回收站负责人"
@@ -91,25 +91,34 @@
           v-hasPermi="['system:cycling:remove']"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:cycling:export']"
-        >导出</el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="warning"-->
+<!--          icon="el-icon-download"-->
+<!--          size="mini"-->
+<!--          @click="handleExport"-->
+<!--          v-hasPermi="['system:cycling:export']"-->
+<!--        >导出</el-button>-->
+<!--      </el-col>-->
     </el-row>
 
     <el-table v-loading="loading" :data="cyclingList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <!--<el-table-column label="回收站id" align="center" prop="id" />-->
+      <el-table-column label="回收站图片" align="center" >
+        <template slot-scope="scope">
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="prefix+scope.row.cyclingImg"
+            :previewSrcList="[prefix+scope.row.cyclingImg]"
+            ></el-image>
+        </template>
+      </el-table-column>
       <el-table-column label="回收站名称" align="center" prop="cyclingName" />
       <el-table-column label="回收站联系方式" align="center" prop="cyclingMobile" />
       <el-table-column label="回收站负责人" align="center" prop="cyclingMan" />
       <el-table-column label="回收站介绍" align="center" prop="cyclingIntroduce" />
-      <el-table-column label="回收站详情" align="center" prop="cyclingDetail" />
+<!--      <el-table-column label="回收站详情" align="center" prop="cyclingDetail" />-->
       <el-table-column label="回收站具体地址" align="center" prop="cyclingAddress"/>
       <!--<el-table-column label="备注" align="center" prop="remark" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -141,16 +150,16 @@
     />
 
     <!-- 添加或修改回收站管理对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="50%">
+    <el-dialog :title="title" :visible.sync="open" width="50%" :close-on-click-modal="false">
       <el-form ref="form" :model="form" :rules="rules" label-width="15%">
         <el-form-item label="回收站名称" prop="cyclingName">
-          <el-input v-model="form.cyclingName" placeholder="请输入回收站名称" />
+          <el-input v-model="form.cyclingName" placeholder="请输入回收站名称" maxlength="20" show-word-limit/>
         </el-form-item>
         <el-form-item label="回收站联系方式" prop="cyclingMobile">
           <el-input v-model="form.cyclingMobile" placeholder="请输入回收站联系方式" />
         </el-form-item>
         <el-form-item label="回收站负责人" prop="cyclingMan">
-          <el-input v-model="form.cyclingMan" placeholder="请输入回收站负责人" />
+          <el-input v-model="form.cyclingMan" placeholder="请输入回收站负责人" maxlength="5" show-word-limit/>
         </el-form-item>
         <el-form-item label="回收站图片" prop="cyclingImg">
           <!--<el-input v-model="form.infoImg" placeholder="请输入资讯图片" />-->
@@ -167,10 +176,10 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="回收站介绍" prop="cyclingIntroduce">
-          <el-input type="textarea" v-model="form.cyclingIntroduce" placeholder="请输入回收站介绍" />
+          <el-input type="textarea" v-model="form.cyclingIntroduce" placeholder="请输入回收站介绍" maxlength="100" show-word-limit/>
         </el-form-item>
         <el-form-item label="回收站详情" prop="cyclingDetail">
-          <el-input type="textarea" v-model="form.cyclingDetail" placeholder="请输入回收站详情" />
+          <el-input type="textarea" v-model="form.cyclingDetail" placeholder="请输入回收站详情" maxlength="400" show-word-limit/>
         </el-form-item>
         <el-form-item label="回收站具体地址" prop="cyclingAddress">
           <!--<el-input v-model="form.cyclingAddress" placeholder="请输入回收站具体地址" />-->
@@ -188,9 +197,11 @@
       <el-row>
         <div class="amap-page-container">
           <el-amap-search-box class="search-box"
+                              :search-option="searchOption"
                               :on-search-result="onSearchResult"
                               ></el-amap-search-box>
           <el-amap :vid="'amap'"
+                   :center="center"
                    :zoom="zoom"
                    :events="events">
             <el-amap-text class="amap-container"  :text="marker.content" :offset="marker.offset" :position="marker.position" :events="marker.events"></el-amap-text>
@@ -239,6 +250,11 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 搜索
+      searchOption: {
+        city: '全国',
+        citylimit: false
+      },
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -277,9 +293,9 @@ export default {
       address:'请输入回收站具体地址',
       contentAddress:"",
       zoom: 14,
-      // center: [113.112414, 23.019643],
-      x:113.112414,
-      y:23.019643,
+      center: [113.1188386,23.023270200000002],
+      x:113.1188386,
+      y:23.023270200000002,
       marker: {
         position: [],
         offset: [0, -50],
@@ -349,8 +365,8 @@ export default {
       };
       this.imageUrl = '',
       this.address = '请输入回收站具体地址',
-      this.x = 116.602489,
-      this.y = 40.080734,
+      this.x = 113.1188386,
+      this.y = 23.023270200000002,
       this.marker={
         position: [],
           offset: [0, -50],
@@ -431,7 +447,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$confirm('是否确认删除回收站"' + row.cyclingName + '"的数据?', "警告", {
+      this.$confirm('是否确认删除回收站?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
@@ -487,7 +503,6 @@ export default {
     onSearchResult(pois) {
       let latSum = 0;
       let lngSum = 0;
-      console.log("------------",pois);
       pois.forEach(poi => {
         lngSum += poi.lng;
         latSum += poi.lat;
@@ -496,7 +511,25 @@ export default {
         lng: lngSum / pois.length,
         lat: latSum / pois.length
       };
-      this.center = [center.lng, center.lat];
+      // this.x = center.lng;
+      // this.y = center.lat;
+      console.log(center)
+      this.center = [center.lng,center.lat];
+      this.marker.position = [center.lng, center.lat];
+      var that = this;
+      var geocoder = new AMap.Geocoder({
+        radius: 1000,
+        extensions: "all"
+      });
+      geocoder.getAddress([center.lng ,center.lat], function(status, result) {
+        if (status === 'complete' && result.info === 'OK') {
+          if (result && result.regeocode) {
+            that.contentAddress = result.regeocode.formattedAddress;
+            that.marker.content = that.contentAddress;
+            that.$nextTick();
+          }
+        }
+      });
     },
     submit() {
       this.address = this.contentAddress;

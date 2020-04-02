@@ -104,7 +104,7 @@ public class CyclingServiceImpl implements ICyclingService
      * @return
      */
     @Override
-    public List<Cycling> getCyclingList() {
-        return cyclingMapper.selectCyclingList(new Cycling());
+    public List<Cycling> getCyclingList(Cycling cycling) {
+        return cyclingMapper.selectCyclingList(cycling);
     }
 }

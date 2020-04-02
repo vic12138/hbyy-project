@@ -28,10 +28,10 @@
       <!--用户数据-->
       <el-col :span="20" :xs="24">
         <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-          <el-form-item label="用户名称" prop="userName">
+          <el-form-item label="用户账号" prop="userName">
             <el-input
               v-model="queryParams.userName"
-              placeholder="请输入用户名称"
+              placeholder="请输入用户账号"
               clearable
               size="small"
               style="width: 240px"
@@ -135,7 +135,7 @@
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="40" align="center" />
           <el-table-column label="用户编号" align="center" prop="userId" />
-          <el-table-column label="用户名称" align="center" prop="userName" />
+          <el-table-column label="用户账号" align="center" prop="userName" />
           <el-table-column label="用户昵称" align="center" prop="nickName" />
           <el-table-column label="部门" align="center" prop="dept.deptName" />
           <el-table-column label="手机号码" align="center" prop="phonenumber" width="120" />
@@ -222,8 +222,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="用户名称" prop="userName">
-              <el-input v-model="form.userName" placeholder="请输入用户名称" />
+            <el-form-item label="用户账号" prop="userName">
+              <el-input v-model="form.userName" placeholder="请输入用户账号" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
